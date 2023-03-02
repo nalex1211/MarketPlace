@@ -16,4 +16,5 @@ public class Products
     [ForeignKey("Categories")]
     public int? CategoryId { get; set; }
     public Categories? Category { get; set; }
+    public List<Orders>? Orders { get; set; }
 }

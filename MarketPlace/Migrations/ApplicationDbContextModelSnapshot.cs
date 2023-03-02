@@ -156,15 +156,10 @@ namespace MarketPlace.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -333,6 +328,21 @@ namespace MarketPlace.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("OrdersProducts", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrdersProducts");
+                });
+
             modelBuilder.Entity("MarketPlace.Models.ApplicationUsers", b =>
                 {
                     b.HasOne("MarketPlace.Models.Addresses", "Address")
@@ -344,15 +354,9 @@ namespace MarketPlace.Migrations
 
             modelBuilder.Entity("MarketPlace.Models.Orders", b =>
                 {
-                    b.HasOne("MarketPlace.Models.Products", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("MarketPlace.Models.ApplicationUsers", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -413,6 +417,21 @@ namespace MarketPlace.Migrations
                     b.HasOne("MarketPlace.Models.ApplicationUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrdersProducts", b =>
+                {
+                    b.HasOne("MarketPlace.Models.Orders", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketPlace.Models.Products", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
