@@ -8,7 +8,6 @@ public class ApplicationUsers : IdentityUser
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public bool AddressAdded { get; set; }
     public int? AddressId { get; set; }
     public Addresses? Address { get; set; }
 }

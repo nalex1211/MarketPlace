@@ -32,6 +32,7 @@
                 }
             </div>
             <div class="col-md-8">
+
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="row">
@@ -82,7 +83,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <a asp-controller="User" asp-action="EditProfile" class="btn btn-primary px-4">Edit</a>
-                                @if (Model.ApplicationUsers.AddressAdded)
+                                @if (Model.ApplicationUsers.AddressId != null)
                                 {
                                     <a asp-controller="User" asp-action="ChangeAddress" class="btn btn-primary px-4">Change adress</a>
                                 }
@@ -99,6 +100,16 @@
                         </div>
                     </div>
                 </div>
+                @if (User.IsInRole(Role.Admin))
+                {
+                    <div class="text-right">
+                        <a asp-controller="Admin" asp-action="ViewAllUsers" class="btn btn-primary">All users</a>
+                        <a asp-controller="Admin" asp-action="AddCategory" class="btn btn-primary">Add category</a>
+                        <a asp-controller="Admin" asp-action="ViewAllCategories" class="btn btn-primary">All categories</a>
+                        <a asp-controller="Admin" asp-action="AddEmail" class="btn btn-primary">Add admin email</a>
+                        <a asp-controller="Admin" asp-action="ViewAllAdminUsers" class="btn btn-primary">View admins</a>
+                    </div>
+                }
             </div>
         </div>
     </div>

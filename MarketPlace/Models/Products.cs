@@ -13,8 +13,6 @@ public class Products
     public string Description { get; set; }
     [Required]
     public double Price { get; set; }
-    [ForeignKey("Categories")]
-    public int? CategoryId { get; set; }
     public Categories? Category { get; set; }
     public List<Orders>? Orders { get; set; }
 }

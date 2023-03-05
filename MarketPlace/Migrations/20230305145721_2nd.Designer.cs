@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarketPlace.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230226164420_creation")]
-    partial class creation
+    [Migration("20230305145721_2nd")]
+    partial class _2nd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,9 +57,6 @@ namespace MarketPlace.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<bool>("AddressAdded")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -118,7 +115,9 @@ namespace MarketPlace.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -349,8 +348,9 @@ namespace MarketPlace.Migrations
             modelBuilder.Entity("MarketPlace.Models.ApplicationUsers", b =>
                 {
                     b.HasOne("MarketPlace.Models.Addresses", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                        .WithOne()
+                        .HasForeignKey("MarketPlace.Models.ApplicationUsers", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Address");
                 });
@@ -367,8 +367,9 @@ namespace MarketPlace.Migrations
             modelBuilder.Entity("MarketPlace.Models.Products", b =>
                 {
                     b.HasOne("MarketPlace.Models.Categories", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
                 });
@@ -437,6 +438,11 @@ namespace MarketPlace.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MarketPlace.Models.Categories", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

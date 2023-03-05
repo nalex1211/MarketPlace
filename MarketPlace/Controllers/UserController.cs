@@ -80,8 +80,8 @@ public class UserController : Controller
 
         var userId = _httpContextAccessor.HttpContext.User.GetUserId();
         var user = await _userRepository.GetUserByIdAsync(userId);
-        user.AddressAdded = true;
-        user.AddressId = model.Id;
+        //user.AddressAdded = true;
+        user.Address = model;
         await _userManager.UpdateAsync(user);
         return RedirectToAction("MyProfile");
     }
@@ -113,7 +113,7 @@ public class UserController : Controller
     {
         var userId = _httpContextAccessor.HttpContext.User.GetUserId();
         var user = await _userRepository.GetUserByIdAsync(userId);
-        if (!user.AddressAdded)
+        if (user.Address == null)
         {
             TempData["NoAddress"] = "You must add your address first!";
             return RedirectToAction("AddAddress");

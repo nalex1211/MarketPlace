@@ -1,8 +1,10 @@
-﻿using MarketPlace.Helpers;
+﻿using MarketPlace.Data;
+using MarketPlace.Helpers;
 using MarketPlace.Models;
 using MarketPlace.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using static MarketPlace.Helpers.AllEmails;
 using static MarketPlace.Helpers.Roles;
 
@@ -13,14 +15,16 @@ public class AccountController : Controller
     private readonly SignInManager<ApplicationUsers> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly EmailService _emailService;
+    private readonly ApplicationDbContext _db;
 
     public AccountController(UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager,
-        RoleManager<IdentityRole> roleManager, EmailService emailService)
+        RoleManager<IdentityRole> roleManager, EmailService emailService, ApplicationDbContext db)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
         _emailService = emailService;
+        _db = db;
     }
 
     public IActionResult Login()
@@ -38,7 +42,7 @@ public class AccountController : Controller
         }
 
         var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null)
+        if (user is null)
         {
             TempData["Error"] = "User with this email doesn't exist!";
             return View(model);
@@ -83,20 +87,20 @@ public class AccountController : Controller
             await _roleManager.CreateAsync(new IdentityRole(Role.Vendor));
 
         var emailExists = await _userManager.FindByEmailAsync(model.Email);
-        if (emailExists != null)
+        if (emailExists is not null)
         {
             TempData["Error"] = "This email already exists!";
             return View(model);
         }
 
         var usernameExists = await _userManager.FindByNameAsync(model.Username);
-        if (usernameExists != null)
+        if (usernameExists is not null)
         {
             TempData["Error"] = "This username already exists!";
             return View(model);
         }
 
-        if (Emails.adminEmails.Contains(model.Email))
+        if (_db.AdminEmails.Any(x => x.AdminEmail == model.Email))
         {
             var adminUser = new ApplicationUsers()
             {
@@ -144,7 +148,7 @@ public class AccountController : Controller
     public async Task<IActionResult> SendEmail(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
+        if (user is null)
         {
             return View("Error");
         }

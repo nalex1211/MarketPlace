@@ -1,0 +1,21 @@
+﻿@model AdminEmails
+
+<form asp-action="AddEmail" method="post">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert-danger">
+            <span>@TempData["Error"]</span>
+        </div>
+    }
+
+    <div class="mt-2 Center">
+        <input style="width:50%" asp-for="AdminEmail" type="email" class="form-control" placeholder="Email" autofocus>
+    </div>
+    <span asp-validation-for="AdminEmail" class="text-danger Center"></span>
+
+    <div class="BtnCenter mt-2">
+        <button asp-controller="Admin" asp-action="AddEmail" class="btn btn-lg btn-primary btn-block" type="submit">Add admin email</button>
+        <button asp-controller="Home" asp-action="Index" class="btn btn-lg btn-secondary btn-block mt-1" type="submit">Back to home page</button>
+    </div>
+</form>
+
