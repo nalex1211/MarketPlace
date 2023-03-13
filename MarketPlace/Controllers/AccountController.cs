@@ -136,6 +136,13 @@ public class AccountController : Controller
             await _userManager.AddToRoleAsync(newUser, Role.User);
             return RedirectToAction("Index", "Home");
         }
+
+        var descriptions = string.Empty;
+        foreach (var item in newUserResponse.Errors)
+        {
+            descriptions += string.Concat(item.Description, "\n");
+        }
+        ModelState.AddModelError("ConfirmPassword", descriptions);
         return View(model);
     }
 

@@ -37,12 +37,12 @@
     <div class="mt-2 Center">
         <input style="width:50%" asp-for="Password" id="IdPassword" type="password" class="form-control" placeholder="Password">
     </div>
-    <span asp-validation-for="Password" class="text-danger Center"></span>
+    <span asp-validation-for="Password" class="text-danger field-validation-error Center"></span>
 
     <div class="mt-2 Center">
         <input style="width:50%" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Password">
     </div>
-    <span asp-validation-for="ConfirmPassword" class="text-danger Center"></span>
+    <span asp-validation-for="ConfirmPassword" class="text-danger Center" style="white-space: pre-wrap;"></span>
 
     <div class="checkbox mb-3 Center" style="margin-right:480px">
         <label>
