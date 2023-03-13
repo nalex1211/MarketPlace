@@ -46,14 +46,16 @@ public class ProductController : Controller
     public async Task<IActionResult> AddProduct()
     {
         var categories = await _productRepository.GetAllCategoriesAsync();
-        ViewData["Categories"] = new SelectList(categories, "Id", "Name");
+        ViewData["Categories"] = categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
         return View();
     }
     [HttpPost]
     public async Task<IActionResult> AddProduct(Products model)
     {
+        var categories = await _productRepository.GetAllCategoriesAsync();
         if (!ModelState.IsValid)
         {
+            ViewData["Categories"] = categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             return View(model);
         }
         _productRepository.Add(model);
