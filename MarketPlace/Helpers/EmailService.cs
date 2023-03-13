@@ -18,7 +18,7 @@ public class EmailService
             "Press the button below to confrim your account!" +
             "</div>" +
             "<div>" +
-            $"<a href=\"{url}\" style=\"display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro' , Helvetica, Arial, sans-serif; font-size: 16px; color: white; text-decoration: none;-webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    border: solid 1px black;\r\n background: #41B1FF;\r\n \">Подтвердить</a>" +
+            $"<a href=\"{url}\" style=\"display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro' , Helvetica, Arial, sans-serif; font-size: 16px; color: white; text-decoration: none;-webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    border: solid 1px black;\r\n background: #41B1FF;\r\n \">Confirm</a>" +
             "</div>"
 
         }.ToMessageBody();

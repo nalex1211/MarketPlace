@@ -80,7 +80,6 @@ public class UserController : Controller
 
         var userId = _httpContextAccessor.HttpContext.User.GetUserId();
         var user = await _userRepository.GetUserByIdAsync(userId);
-        //user.AddressAdded = true;
         user.Address = model;
         await _userManager.UpdateAsync(user);
         return RedirectToAction("MyProfile");
@@ -125,6 +124,8 @@ public class UserController : Controller
             return RedirectToAction("MyProfile");
         }
         await _userManager.AddToRoleAsync(user, Role.Vendor);
+        await _userManager.RemoveFromRoleAsync(user, Role.User);
+        await _db.SaveChangesAsync();
         return RedirectToAction("MyProfile");
     }
 }

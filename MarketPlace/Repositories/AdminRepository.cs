@@ -61,9 +61,9 @@ public class AdminRepository : IAdminRepository
 
     public async Task<List<ApplicationUsers>> GetAllAdminsAsync()
     {
-        return await (from adminEmail in _db.AdminEmails
+        return await (from email in _db.AdminEmails
                       join user in _db.Users
-                      on adminEmail.AdminEmail equals user.Email
+                      on email.AdminEmail equals user.Email
                       select user).ToListAsync();
 
     }

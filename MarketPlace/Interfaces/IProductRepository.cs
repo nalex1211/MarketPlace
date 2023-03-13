@@ -5,5 +5,8 @@ namespace MarketPlace.Interfaces;
 public interface IProductRepository
 {
     Task<List<Products>> GetAllProductsAndCategories();
-    public Task<Products> GetProductByIdAsync(int id);
+     Task<Products> GetProductByIdAsync(int id);
+    Task<List<Categories>> GetAllCategoriesAsync();
+    bool Add(Products model);
+    bool Save();
 }

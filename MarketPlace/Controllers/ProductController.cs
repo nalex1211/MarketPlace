@@ -4,6 +4,7 @@ using MarketPlace.Models;
 using MarketPlace.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MarketPlace.Controllers;
 public class ProductController : Controller
@@ -41,5 +42,21 @@ public class ProductController : Controller
             ApplicationUsers = user
         };
         return View(model);
+    }
+    public async Task<IActionResult> AddProduct()
+    {
+        var categories = await _productRepository.GetAllCategoriesAsync();
+        ViewData["Categories"] = new SelectList(categories, "Id", "Name");
+        return View();
+    }
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(Products model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        _productRepository.Add(model);
+        return RedirectToAction("Index", "Home");
     }
 }
