@@ -1,0 +1,63 @@
+﻿<style>
+    #table-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    input[type="file"] {
+        padding: 10px;
+    }
+</style>
+<label style="font-size:30px;text-align:center;display:block" class="text-danger">@TempData["NoCategory"]</label>
+<div>
+    <h3>Select an excel file to import. It should look like the table below</h3>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+            </tr>
+            <tr>
+                <td>Example1</td>
+                <td>Example1</td>
+                <td>Example1</td>
+                <td>Example1</td>
+            </tr>
+            <tr>
+                <td>Example2</td>
+                <td>Example2</td>
+                <td>Example2</td>
+                <td>Example2</td>
+            </tr>
+        </table>
+    </div>
+    @using (Html.BeginForm("AddProductExcel", "Product", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div style="margin-top: 20px;">
+            Import Excel file:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div style="margin-top: 20px;">
+                <input asp-action="AddProductExcel" class="btn btn-primary" type="submit" value="Upload" />
+            </div>
+        </div>
+    }
+</div>

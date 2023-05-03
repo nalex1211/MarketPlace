@@ -1,0 +1,39 @@
+﻿@model Products
+
+
+<form asp-action="AddProduct" method="post">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert-danger">
+            <span>@TempData["Error"]</span>
+        </div>
+    }
+    <label style="font-size:30px;text-align:center;display:block" class="text-danger">@TempData["CategoryError"]</label>
+    <h1 class="h3 mb-3 font-weight-normal Center">Add Product</h1>
+    <div class="Center">
+        <input style="width:50%" asp-for="Name" class="form-control" placeholder="Name" autofocus>
+    </div>
+    <span asp-validation-for="Name" class="text-danger Center"></span>
+
+    <div class="mt-2 Center ">
+        <input style="width:50%" asp-for="Description" class="form-control" placeholder="Description" autofocus>
+    </div>
+    <span asp-validation-for="Description" class="text-danger Center"></span>
+
+    <div class="mt-2 Center">
+        <input style="width:50%" asp-for="Price" class="form-control" placeholder="Price" autofocus>
+    </div>
+    <span asp-validation-for="Price" class="text-danger Center"></span>
+
+    <div class="mt-2 Center">
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" style="width:50%" class="form-control" autofocus>
+            <option value="" disabled selected>Select a category</option>
+        </select><br>
+    </div>
+
+
+    <div class="BtnCenter mt-2">
+        <button asp-action="AddProduct" class="btn btn-lg btn-primary btn-block" type="submit">Add product</button>
+        <button asp-controller="Home" asp-action="Index" class="btn btn-lg btn-secondary btn-block mt-1" type="submit">Back to home page</button>
+    </div>
+</form>

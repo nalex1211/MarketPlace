@@ -1,0 +1,38 @@
+﻿@using System.Security.Claims;
+@model List<ApplicationUsers>
+
+<h1>All admins</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Confirmed email</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <th scope="row">@user.Id</th>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.EmailConfirmed</td>
+                <td>
+                    @if (user.Id != User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    {
+                        <form method="post">
+                            <button class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id">Delete</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

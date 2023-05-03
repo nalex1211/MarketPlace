@@ -1,0 +1,97 @@
+﻿@using System.Security.Claims;
+@using static MarketPlace.Helpers.Roles;
+@model List<(ApplicationUsers users, string roles)>
+
+<h1>All users</h1>
+<label style="font-size:30px;text-align:center;display:block" class="text-danger">@TempData["EmptyInput"]</label>
+<label style="font-size:30px;text-align:center;display:block" class="text-danger">@TempData["NoUser"]</label>
+<label style="font-size:30px">Find a user</label>
+<form asp-action="FindUser" method="post">
+    <div class="mt-2 mb-4">
+        <div class="row">
+            <div class="col-4">
+                <input name="username" style="width:100%" type="search" class="form-control" placeholder="Username" autofocus>
+            </div>
+            <div class="col-6">
+                <button asp-action="FindUser" class="btn btn-primary" style="width:20%">Find</button>
+                <button asp-action="ViewAllUsers" class="btn btn-secondary" style="width:20%">Refresh</button>
+                <button asp-action="ExportUsers" class="btn btn-primary">Export all users in excel file</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<table class="table" style="width:120%">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Confirmed email</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <th scope="row">@user.users.Id</th>
+                <td>@user.users.UserName</td>
+                <td>@user.users.Email</td>
+                <td>@user.users.FirstName</td>
+                <td>@user.users.LastName</td>
+                <td>@user.users.EmailConfirmed</td>
+                <td>@user.roles</td>
+                <td>
+                    <div class="input-group">
+                        <form method="post">
+                            @if (user.roles != Role.Admin)
+                            {
+                                <button class="btn btn-primary" asp-action="MakeAnAdmin" asp-route-id="@user.users.Id">Make user an admin</button>
+                            }
+                            @if (user.users.Id != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                            {
+                                <button class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@user.users.Id">Delete</button>
+                            }
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div class="container">
+    <div id="chart1"></div>
+</div>
+
+
+@section scripts
+    {
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                $.get('/api/Chart/JsonData1', function (JsonData1) {
+                    data = google.visualization.arrayToDataTable(JsonData1, false);
+                    var option = {
+                        title: "Ratio between confirmed users and not",
+                        width: 500,
+                        height: 400
+                    };
+                    chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                    chart.draw(data, option);
+
+                })
+            }
+
+
+        </script>
+}

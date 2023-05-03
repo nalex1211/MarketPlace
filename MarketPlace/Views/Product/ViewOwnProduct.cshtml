@@ -1,0 +1,19 @@
+﻿@model Products
+
+<div class="card mb-4 box-shadow mt-4">
+    <div class="card-body">
+        <p class="card-text">Name-@Model.Name</p>
+        <p class="card-text">Category-@Model.Category?.Name</p>
+        <p class="card-text">Description-@Model.Description</p>
+        <p class="card-text">Price-$@Model.Price</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <a asp-controller="Product" asp-action="EditOwnProduct" asp-route-id="@Model.Id" type="button" class="btn btn-sm btn-secondary rounded" style="width:75px">Edit</a>
+                <form asp-action="DeleteOwnProduct">
+                    <button asp-controller="Product" asp-action="DeleteOwnProduct" asp-route-id="@Model.Id" class="btn btn-sm btn-danger" style="margin-left: 10px;width:75px">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

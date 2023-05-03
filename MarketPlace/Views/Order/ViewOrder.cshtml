@@ -1,0 +1,132 @@
+﻿@using MarketPlace.Helpers;
+@model List<Orders>
+
+<style>
+    .table-container {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .table-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        transition: border-color 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    .table-row-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+
+    .table-header {
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .table-row:hover {
+        box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.5);
+    }
+
+    .table-row > div {
+        flex-basis: 0;
+        flex-grow: 1;
+        text-align: left;
+        padding: 0 4px;
+    }
+
+    .expanded-info {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-row.no-border-bottom {
+        border-bottom: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .product-details {
+        display: flex;
+        align-items: center
+    }
+</style>
+
+
+
+<div class="table-row-header">
+    <div class="table">Order Id</div>
+    <div class="table">Product Name</div>
+    <div class="table">Price</div>
+    <div class="table">Description</div>
+    <div class="table">Total price</div>
+</div>
+
+@foreach (var order in Model)
+{
+    <div class="table-row">
+        <div>
+            @foreach (var product in order.Product)
+            {
+                <div class="product-details">
+                    @if (product == order.Product.First())
+                    {
+                        <div class="table">@order.Id</div>
+                    }
+                    else
+                    {
+                        <div class="table"></div>
+                    }
+                    <div class="table">@product.Name</div>
+                    <div class="table">$@product.Price</div>
+                    <div class="table">@product.Description</div>
+                    @if (product == order.Product.First())
+                    {
+                        <div class="table">$@order.TotalPrice</div>
+                    }
+                    else
+                    {
+                        <div class="table"></div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div class="expanded-info hidden">
+        <p>
+            Delivery address:<br>
+            Country: @order.DeliveryAddress.Country<br>
+            City: @order.DeliveryAddress.City<br>
+            Street: @order.DeliveryAddress.Street<br>
+            Postal code: @order.DeliveryAddress.PostalCode<br>
+        </p>
+
+        <p>Status: @EnumStatus.GetEnumStatus(order.Status)</p>
+    </div>
+}
+
+
+
+
+<script>
+    const rows = document.querySelectorAll('.table-row');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            const expandedInfo = row.nextElementSibling;
+            expandedInfo.classList.toggle('hidden');
+            row.classList.toggle('no-border-bottom');
+        });
+    });
+</script>
+
+

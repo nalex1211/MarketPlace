@@ -1,0 +1,63 @@
+﻿@model Products
+<div class="container">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert-danger">
+            <span>@TempData["Error"]</span>
+        </div>
+    }
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-8">
+                <form asp-action="EditProfile">
+                    <input type="hidden" asp-for=UserId/>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Name</h6>
+                                </div>
+
+                                <div class="col-sm-9 text-secondary">
+                                    <input asp-for="Name" type="text" class="form-control" value="@Model.Name">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Description</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input asp-for=Description type="text" class="form-control" value="@Model.Description">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Price</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input asp-for=Price type="text" class="form-control" value="@Model.Price">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Category</h6>
+                                </div>
+                                
+                                <div class="col-sm-9 text-secondary">
+                                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" style="width:50%" class="form-control" autofocus></select><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9 text-secondary">
+                                    <button asp-controller="Product" asp-action="EditOwnProduct" class="btn btn-primary px-4">Save changes</button>
+                                    <button asp-controller="User" asp-action="MyProfile" class="btn btn-secondary px-4">Back to profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

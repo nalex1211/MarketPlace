@@ -1,0 +1,175 @@
+﻿@using MarketPlace.Helpers;
+@model List<Orders>
+
+<style>
+    .table-container {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .table-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        transition: border-color 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    .table-row-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+
+    .table-header {
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .table-row:hover {
+        box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.5);
+    }
+
+    .table-row > div {
+        flex-basis: 0;
+        flex-grow: 1;
+        text-align: left;
+        padding: 0 4px;
+    }
+
+    .expanded-info {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-row.no-border-bottom {
+        border-bottom: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .product-details {
+        display: flex;
+        align-items: center
+    }
+</style>
+
+<div class="table-row-header">
+    <div class="table">Order Id</div>
+    <div class="table">Product Name</div>
+    <div class="table">Price</div>
+    <div class="table">Description</div>
+    <div class="table">Total price</div>
+</div>
+
+
+@foreach (var order in Model)
+{
+    <div class="table-row">
+        <div>
+            @foreach (var product in order.Product)
+            {
+                <div class="product-details">
+                    @if (product == order.Product.First())
+                    {
+                        <div class="table">@order.Id</div>
+                    }
+                    else
+                    {
+                        <div class="table"></div>
+                    }
+                    <div class="table">@product.Name</div>
+                    <div class="table">$@product.Price</div>
+                    <div class="table">@product.Description</div>
+                    @if (product == order.Product.First())
+                    {
+                        <div class="table">$@order.TotalPrice</div>
+                    }
+                    else
+                    {
+                        <div class="table"></div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div class="expanded-info hidden">
+        <p>
+            Delivery address:<br>
+            Country: @order.DeliveryAddress.Country<br>
+            City: @order.DeliveryAddress.City<br>
+            Street: @order.DeliveryAddress.Street<br>
+            Postal code: @order.DeliveryAddress.PostalCode<br>
+        </p>
+        <p>Status:</p>
+        <form asp-action="EditOrder">
+            @foreach (var item in order.GetType().GetProperties())
+            {
+                if (item.Name != "Status")
+                {
+                    <input type="hidden" name="@item.Name" value="@item.GetValue(order)" />
+                }
+            }
+            <select asp-for=@order.Status name="Status" class="form-control mb-2" style="width:25%">
+                @foreach (Status status in Enum.GetValues(typeof(Status)))
+                {
+                    <option value="@status">@EnumStatus.GetEnumStatus(status)</option>
+                }
+            </select>
+
+            <button asp-action="EditOrder" class="btn btn-primary">Save changes to order</button>
+        </form>
+
+    </div>
+}
+<script>
+    const rows = document.querySelectorAll('.table-row');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            const expandedInfo = row.nextElementSibling;
+            expandedInfo.classList.toggle('hidden');
+            row.classList.toggle('no-border-bottom');
+        });
+    });
+</script>
+
+<div class="container mt-4">
+    <div id="chart1"></div>
+</div>
+
+
+@section scripts
+    {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            $.get('/api/Chart/JsonData', function (JsonData) {
+                data = google.visualization.arrayToDataTable(JsonData, false);
+                var option = {
+                    title: "Ratio between orders",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+
+            })
+        }
+
+
+    </script>
+}
+
+
+

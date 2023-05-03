@@ -1,0 +1,25 @@
+﻿@model List<Products>
+
+<form asp-action="Export">
+    <div class="mt-2" style="margin-left:25px">
+        <h1 style="font-size:35px">Export all your products in excel file</h1>
+
+        <button asp-action="Export" class="btn btn-primary mb-4">Export</button>
+    </div>
+</form>
+
+<div class="containerprod">
+    <div class="product-container">
+        @foreach (var product in Model)
+        {
+            <a asp-controller="Product" asp-action="ViewOwnProduct" asp-route-id="@product.Id" type="button" class="btn">
+                <div class="product">
+                    <h3>@product.Name</h3>
+                    <p>@product.Category.Name</p>
+                    <p>@product.Description</p>
+                    <span>$@product.Price</span>
+                </div>
+            </a>
+        }
+    </div>
+</div>

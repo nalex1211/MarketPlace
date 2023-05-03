@@ -1,0 +1,26 @@
+﻿@model PaymentType
+
+<form asp-action="AddPayment" class="form-signin">
+    @if (TempData["Error"] != null)
+    {
+            <div class="col-md-12 alert-danger">
+                <span>@TempData["Error"]</span>
+            </div>
+    }
+
+    <h1 class="h3 mb-3 font-weight-normal Center">Add category</h1>
+    <div class="Center mb-3">
+        <input style="width:50%" asp-for="Name" class="form-control" placeholder="Payment type name" autofocus>
+    </div>
+    <span asp-validation-for="Name" class="text-danger Center"></span>
+
+    <div class="Center">
+        <input style="width:50%" asp-for="Description" class="form-control" placeholder="Description" autofocus>
+    </div>
+    <span asp-validation-for="Description" class="text-danger Center"></span>
+
+    <div class="BtnCenter mt-2">
+        <button asp-controller="Admin" asp-action="AddPayment" class="btn btn-lg btn-primary btn-block" type="submit">Add payment type</button>
+        <button asp-controller="Home" asp-action="Index" class="btn btn-lg btn-secondary btn-block mt-1" type="submit">Back to home page</button>
+    </div>
+</form>

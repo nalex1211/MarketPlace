@@ -1,0 +1,54 @@
+﻿@model List<Cart>
+<h1 class="Center">My cart</h1>
+<form asp-action="RemoveFromCart">
+    <div class="Center">
+        <button asp-action="BuyFromCart" id="add-selected-btn" style="display: inline-block; margin-right: 10px;" class="btn btn-primary mb-3" disabled>
+            Buy selected
+        </button>
+        <button id="remove-selected-btn" style="display: inline-block;" class="btn btn-danger mb-3" disabled>
+            Remove selected
+        </button>
+    </div>
+
+
+    <div class="containerprod">
+        <div class="product-container Center">
+            @foreach (var cart in Model)
+            {
+                <a asp-action="ViewProduct" style="border:none" asp-route-id="@cart.Product.Id" class="btn">
+                    <div class="product">
+                        <input type="checkbox" name="selectedItemIds" value="@cart.Product.Id" class="product-checkbox" />
+                        <h3>@cart.Product.Name</h3>
+                        <p>@cart.Product.Category.Name</p>
+                        <p>@cart.Product.Description</p>
+                        <span>$@cart.Product.Price</span>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</form>
+
+<script>
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    const removeSelectedBtn = document.getElementById('remove-selected-btn');
+    const addSelectedBtn = document.getElementById('add-selected-btn');
+
+    var toggleButtonState = (button) =>
+    {
+        const checkedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+        if (checkedCheckboxes.length > 0) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            toggleButtonState(removeSelectedBtn);
+            toggleButtonState(addSelectedBtn);
+        });
+    });
+</script>
+

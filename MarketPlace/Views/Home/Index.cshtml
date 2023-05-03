@@ -1,0 +1,35 @@
+﻿@model MarketPlace.ViewModels.ProductCategoriesVM
+<div class="containerprod">
+    <div class="categories">
+        <h3>Categories</h3>
+        <ul>
+            <form asp-action="DisplayCategoryProducts">
+            <li>
+                <b><a asp-action="Index">All products</a></b>
+            </li>
+                @foreach (var category in Model.Categories)
+                {
+                <li>
+                    <a asp-route-category="@category.Name" asp-action="DisplayCategoryProducts">
+                            @category.Name
+                    </a>
+                </li>
+                }
+            </form>
+        </ul>
+    </div>
+    <div class="product-container">
+        @foreach (var product in Model.Products)
+        {
+            <a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.Id" type="button" class="btn">
+                <div class="product">
+                    <h3>@product.Name</h3>
+                    <p>@product.Category.Name</p>
+                    <p>@product.Description</p>
+                    <span>$@product.Price</span>
+                </div>
+            </a>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,19 @@
+﻿@model Products
+
+<div class="card mb-4 box-shadow mt-4">
+    <div class="card-body">
+        <p class="card-text">Name-@Model.Name</p>
+        <p class="card-text">Category-@Model.Category.Name</p>
+        <p class="card-text">Description-@Model.Description</p>
+        <p class="card-text">Price-$@Model.Price</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <form asp-action="AddToCart">
+                <a asp-controller="Product" asp-action="BuyProduct" asp-route-id="@Model.Id" type="button" class="btn btn-primary">Buy</a>
+                    <button asp-action="AddToCart" asp-route-productId="@Model.Id" class="btn btn-primary">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,123 @@
+﻿@using static MarketPlace.Helpers.Roles;
+@model MarketPlace.ViewModels.UserViewModel
+
+<div class="container">
+    <label style="font-size:30px;text-align:center;display:block" class="text-danger">@TempData["NoAddress"]</label>
+    <label style="font-size:30px;text-align:center;display:block" asp-validation-for="@Model.ApplicationUsers.EmailConfirmed" class="text-danger">@TempData["NotConfirmed"]</label>
+    <div class="main-body">
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+                <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+            </ol>
+        </nav>
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" style="border: 2px solid white;" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>@Model.ApplicationUsers.FirstName @Model.ApplicationUsers.LastName</h4>
+                                <h5>Role-@Model.Role</h5>
+                                <p class="text-secondary mb-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Role != Role.Vendor && Model.Role != Role.Admin)
+                {
+                    <form asp-action="BecomeVendor">
+                        <button asp-action="BecomeVendor" class="mt-2 btn btn-primary" style="width:100%">Become vendor</button>
+                    </form>
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Full Name</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                @Model.ApplicationUsers.FirstName @Model.ApplicationUsers.LastName
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                @Model.ApplicationUsers.Email
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Username</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                @Model.ApplicationUsers.UserName
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Mobile</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                @Model.ApplicationUsers.PhoneNumber
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                @Model.ApplicationUsers.Address?.City, @Model.ApplicationUsers.Address?.Country, @Model.ApplicationUsers.Address?.Street
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a asp-controller="User" asp-action="EditProfile" class="btn btn-primary px-4">Edit profile</a>
+                                @if (Model.ApplicationUsers.AddressId != null)
+                                {
+                                    <a asp-controller="User" asp-action="ChangeAddress" class="btn btn-primary px-4">Change adress</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="User" asp-action="AddAddress" class="btn btn-primary px-4">Add adress</a>
+                                }
+                                @if (!Model.ApplicationUsers.EmailConfirmed)
+                                {
+                                    <a asp-controller="Account" asp-action="SendEmail" class="btn btn-primary" asp-route-id="@Model.ApplicationUsers.Id">Verify account</a>
+                                }
+                                <a asp-controller="Order" asp-action="ViewOrder" class="btn btn-primary" asp-route-id="@Model.ApplicationUsers.Id">My orders</a>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary px-4">Back to homepage</a>
+                                @if (User.IsInRole(Role.Vendor) || User.IsInRole(Role.Admin))
+                                {
+                                    <div class="mt-2">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Product controls
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a asp-controller="Product" asp-action="AddProduct" class="dropdown-item">Add product</a>
+                                            <a asp-controller="Product" asp-action="AddProductExcel" class="dropdown-item">Add products through excel</a>
+                                            <a asp-controller="Product" asp-action="AllUserProducts" class="dropdown-item">My products</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
