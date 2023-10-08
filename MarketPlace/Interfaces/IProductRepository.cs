@@ -5,6 +5,8 @@ namespace MarketPlace.Interfaces;
 public interface IProductRepository
 {
     Task<List<Products>> GetAllProdsAndCategsAsync();
+    Task<Products> FindProductByNameAsync(string name);
+    Task<IEnumerable<Products>> GetProductsByNameAsync(string term);
     Task<Products> GetProductByIdAsync(int id);
     Task<List<Categories>> GetAllCategoriesAsync();
     Task<List<Products>> GetAllUserProductsAsync(string id);

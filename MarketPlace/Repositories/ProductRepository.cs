@@ -121,4 +121,17 @@ public class ProductRepository : IProductRepository
         await _db.AddressesForOrders.AddAsync(model);
         return await SaveAsync();
     }
+
+    public async Task<Products> FindProductByNameAsync(string name)
+    {
+        return await _db.Products.Include(x=>x.Category).FirstOrDefaultAsync(x => x.Name == name);
+    }
+
+    public async Task<IEnumerable<Products>> GetProductsByNameAsync(string term)
+    {
+        return await _db.Products
+            .Where(p => p.Name.Contains(term))
+            .ToListAsync();
+    }
+
 }

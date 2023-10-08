@@ -74,10 +74,7 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> AddAddress(Addresses model)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
+        
         await _userRepository.AddAddressAsync(model);
 
         var userId = _httpContextAccessor.HttpContext.User.GetUserId();

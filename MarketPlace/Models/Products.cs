@@ -6,11 +6,13 @@ namespace MarketPlace.Models;
 public class Products
 {
     public int Id { get; set; }
-    [Required]
+    [Required(ErrorMessage ="Product name is required!")]
+    [StringLength(50, MinimumLength = 5)]
     public string Name { get; set; }
-    [Required]
+    [Required(ErrorMessage ="Product description is required!")]
+    [StringLength(100, MinimumLength = 10)]
     public string Description { get; set; }
-    [Required]
+    [Required(ErrorMessage ="Product price is required!")]
     public double Price { get; set; }
     public int CategoryId { get; set; }
     public Categories? Category { get; set; }

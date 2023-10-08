@@ -553,7 +553,8 @@ namespace MarketPlace.Migrations
 
                     b.HasOne("MarketPlace.Models.ApplicationUsers", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");
 

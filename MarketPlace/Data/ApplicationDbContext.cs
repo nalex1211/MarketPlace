@@ -25,6 +25,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUsers>
          .HasForeignKey(c => c.UserId)
          .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Products>()
+        .HasOne(p => p.User)
+        .WithMany()
+        .HasForeignKey(p => p.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<Addresses>(entity =>
         {
             entity.Property(e => e.Country).HasMaxLength(30);

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj": {}
+    "E:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj": {}
   },
   "projects": {
-    "C:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj": {
+    "E:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj",
+        "projectUniqueName": "E:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj",
         "projectName": "MarketPlace",
-        "projectPath": "C:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj",
+        "projectPath": "E:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\MarketPlace.csproj",
         "packagesPath": "C:\\Users\\nalex\\.nuget\\packages\\",
-        "outputPath": "C:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\obj\\",
+        "outputPath": "E:\\VisualStudio(Projects)\\MarketPlace\\MarketPlace\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\VisualStudio(Shared)\\NuGetPackages"
@@ -74,6 +74,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.5, )"
+            },
+            "Select2.js": {
+              "target": "Package",
+              "version": "[4.0.13, )"
+            },
+            "jQuery": {
+              "target": "Package",
+              "version": "[3.7.1, )"
             }
           },
           "imports": [

@@ -4,6 +4,7 @@ using MarketPlace.Helpers;
 using MarketPlace.Interfaces;
 using MarketPlace.Models;
 using MarketPlace.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -102,6 +103,7 @@ public class ProductController : Controller
         if (model.CategoryId == 0)
         {
             TempData["CategoryError"] = "You must choose a category!";
+            ViewData["Categories"] = categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             return View(model);
         }
         if (!ModelState.IsValid)
@@ -110,7 +112,7 @@ public class ProductController : Controller
             return View(model);
         }
         model.UserId = userId;
-        _productRepository.AddAsync(model);
+        await _productRepository.AddAsync(model);
         return RedirectToAction("AllUserProducts");
     }
     public async Task<IActionResult> AllUserProducts()
@@ -285,4 +287,5 @@ public class ProductController : Controller
         };
         return View("BuyProduct", model);
     }
+
 }
